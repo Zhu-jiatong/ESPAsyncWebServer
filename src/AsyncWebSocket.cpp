@@ -829,7 +829,11 @@ void AsyncWebSocketClient::binary(AsyncWebSocketMessageBuffer * buffer)
 
 IPAddress AsyncWebSocketClient::remoteIP() {
     if(!_client) {
+        #if defined(CONFIG_IDF_TARGET_ESP32C3)
+        return IPAddress(static_cast<uint32_t>(0U));
+        #else
         return IPAddress(0U);
+        #endif // ESP32C3
     }
     return _client->remoteIP();
 }
